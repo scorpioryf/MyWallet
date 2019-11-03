@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_marginBottom="1dp"
+    android:clipChildren="false">
+
+    <RelativeLayout
+        android:id="@+id/slide_itemView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80e1e1e1"
+        android:clipChildren="false"
+        android:tag="slide_flag">
+
+        <!--<TextView
+            android:id="@+id/item_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="item"
+            android:textColor="#333333"
+            android:textSize="16sp" />-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dateBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="YYYY-MM-DD"
+                android:textColor="#000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/timeBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#dddddd"
+                android:text="HH:MM"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateBar" />
+
+            <TextView
+                android:id="@+id/item_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="84dp"
+                android:layout_marginEnd="64dp"
+                android:text="item"
+                android:textColor="#444444"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageViewTransport"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewMeal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/transport_light" />
+
+            <ImageView
+                android:id="@+id/imageViewClothes"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewHealth"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/clothes_light" />
+
+            <ImageView
+                android:id="@+id/imageViewMeal"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewClothes"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/restaurant_light" />
+
+            <ImageView
+                android:id="@+id/imageViewHealth"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/health_light" />
+
+            <TextView
+                android:id="@+id/textViewTypeIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="52dp"
+                android:text="INCOME"
+                android:textColor="#ee0044"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTypeExpend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="52dp"
+                android:text="EXPEND"
+                android:textColor="#00ee44"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="132dp"
+                android:layout_marginTop="32dp"
+                android:text="￥XX.XX"
+                android:textSize="45sp"
+                android:textColor="#323232"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/slide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/item_layout"
+            android:clipChildren="false"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/edit"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="#FF9D00"
+                android:gravity="center"
+                android:text="EDIT"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="#FE3C31"
+                android:gravity="center"
+                android:text="DELETE"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
