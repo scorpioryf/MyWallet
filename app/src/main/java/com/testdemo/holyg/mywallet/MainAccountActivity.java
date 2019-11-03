@@ -22,16 +22,19 @@ import android.support.v7.widget.RecyclerView;
 import cn.we.swipe.helper.WeSwipe;
 import cn.we.swipe.helper.WeSwipeHelper;
 
+import com.testdemo.holyg.mywallet.ListListDialogFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainAccountActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RecAdapter.DeletedItemListener {
+        implements NavigationView.OnNavigationItemSelectedListener,RecAdapter.DeletedItemListener,ListListDialogFragment.Listener {
 
     RecyclerView recyclerView;
     private RecAdapter recAdapter;
     private ArrayList<Sheet> list = new ArrayList<>();
+
 
     public PreferencesService preferencesService;
 
@@ -176,19 +179,23 @@ public class MainAccountActivity extends AppCompatActivity
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
             count++;
             String string = "This String just show as a Comment to occupy the position.";
             string = string + count;
             Sheet currentSheet = new Sheet(RecAdapter.EXPEND,4.5,2019,10,25,15,16,RecAdapter.MEAL,string);
 
 
-            list.add(currentSheet);
-            preferencesService.save(list);
-            recAdapter.setList(list);
-            recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+            ListListDialogFragment.newInstance(30).show(getSupportFragmentManager(),"Dialog");
+//            list.add(currentSheet);
+//            preferencesService.save(list);
+//            recAdapter.setList(list);
+//            recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
             //recyclerView.smoothScrollToPosition(0);
         }
     };
+
+    @Override
+    public void onListClicked(int position) {
+
+    }
 }

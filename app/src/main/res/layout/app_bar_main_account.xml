@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainAccountActivity">
@@ -22,14 +23,15 @@
 
     <include layout="@layout/content_main_account" />
 
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         app:layout_behavior="com.testdemo.holyg.mywallet.ScrollAwareFABBehavior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="18dp"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.design.widget.CoordinatorLayout>
