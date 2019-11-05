@@ -24,13 +24,15 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_ITEM_COUNT = "item_count";
+    private static final String ARG_SHEET_INPUT = "new_sheet";
     private Listener mListener;
 
     // TODO: Customize parameters
-    public static ListListDialogFragment newInstance(int itemCount) {
+    public static ListListDialogFragment newInstance(Sheet currentSheet) {
         final ListListDialogFragment fragment = new ListListDialogFragment();
         final Bundle args = new Bundle();
-        args.putInt(ARG_ITEM_COUNT, itemCount);
+        //args.putInt(ARG_ITEM_COUNT, itemCount);
+        args.putSerializable(ARG_SHEET_INPUT,currentSheet);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,8 +46,8 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         final RecyclerView recyclerView = (RecyclerView) view;
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        recyclerView.setAdapter(new ListAdapter(getArguments().getInt(ARG_ITEM_COUNT)));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        recyclerView.setAdapter(new ListAdapter(1));
     }
 
     @Override

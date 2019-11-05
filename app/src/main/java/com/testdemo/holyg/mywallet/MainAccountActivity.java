@@ -185,7 +185,7 @@ public class MainAccountActivity extends AppCompatActivity
             Sheet currentSheet = new Sheet(RecAdapter.EXPEND,4.5,2019,10,25,15,16,RecAdapter.MEAL,string);
 
 
-            ListListDialogFragment.newInstance(30).show(getSupportFragmentManager(),"Dialog");
+            ListListDialogFragment.newInstance(currentSheet).show(getSupportFragmentManager(),"Dialog");
 //            list.add(currentSheet);
 //            preferencesService.save(list);
 //            recAdapter.setList(list);
