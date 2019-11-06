@@ -21,6 +21,7 @@ import cn.we.swipe.helper.WeSwipeHelper;
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
     public final static int INCOME = 1;
     public final static int EXPEND = 0;
+    public final static int UNDEFINED = -1;
 
     public final static int TRANSPORT = 5;
     public final static int MEAL = 6;
@@ -61,7 +62,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
 
         }
         else{
-            notifyItemMoved(0,0);
+            notifyItemInserted(0);
         }
     }
 
@@ -89,7 +90,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
 
         holder.textViewComment.setText(tempSheet.getComment());
         holder.textViewDate.setText(tempSheet.getDate());
-        holder.textViewAmount.setText(tempSheet.getValue());
+        holder.textViewAmount.setText("￥" + tempSheet.getValue());
         holder.textViewTime.setText(tempSheet.getTime());
 
         if(tempSheet.getType() == INCOME){
@@ -100,9 +101,14 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
             holder.imageViewMeal.setVisibility(View.INVISIBLE);
             holder.imageViewClothes.setVisibility(View.INVISIBLE);
         }
+
         else if(tempSheet.getType() == EXPEND){
             holder.textViewTypeIncome.setVisibility(View.INVISIBLE);
             holder.textViewTypeExpend.setVisibility(View.VISIBLE);
+            holder.imageViewTransport.setVisibility(View.VISIBLE);
+            holder.imageViewHealth.setVisibility(View.VISIBLE);
+            holder.imageViewMeal.setVisibility(View.VISIBLE);
+            holder.imageViewClothes.setVisibility(View.VISIBLE);
             switch (tempSheet.getWay()){
                 case TRANSPORT:
                     holder.imageViewTransport.setImageResource(R.drawable.transport_dark);

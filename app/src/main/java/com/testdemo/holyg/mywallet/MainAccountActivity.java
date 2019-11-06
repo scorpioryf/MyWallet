@@ -104,7 +104,6 @@ public class MainAccountActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
         initView();
         initData();
     }
@@ -176,15 +175,15 @@ public class MainAccountActivity extends AppCompatActivity
         preferencesService.save(list);
     }
 
+
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             count++;
-            String string = "This String just show as a Comment to occupy the position.";
-            string = string + count;
-            Sheet currentSheet = new Sheet(RecAdapter.EXPEND,4.5,2019,10,25,15,16,RecAdapter.MEAL,string);
 
-
+            String string = "";
+            Sheet currentSheet = new Sheet(RecAdapter.INCOME,0.0,0,0,0,0,0,RecAdapter.UNDEFINED,string);
             ListListDialogFragment.newInstance(currentSheet).show(getSupportFragmentManager(),"Dialog");
 //            list.add(currentSheet);
 //            preferencesService.save(list);
@@ -195,7 +194,12 @@ public class MainAccountActivity extends AppCompatActivity
     };
 
     @Override
-    public void onListClicked(int position) {
-
+    public void onListClicked(boolean status,Sheet sheet) {
+        if(status){
+            list.add(sheet);
+            preferencesService.save(list);
+            recAdapter.setList(list);
+            recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+        }
     }
 }
