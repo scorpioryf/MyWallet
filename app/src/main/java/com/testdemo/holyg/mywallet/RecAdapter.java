@@ -120,7 +120,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
                     holder.imageViewMeal.setImageResource(R.drawable.restaurant_dark);
                     break;
                 case HEALTH:
-                    holder.imageViewMeal.setImageResource(R.drawable.health_dark);
+                    holder.imageViewHealth.setImageResource(R.drawable.health_dark);
                     break;
             }
         }
