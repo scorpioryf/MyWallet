@@ -43,7 +43,7 @@ public class MainAccountActivity extends AppCompatActivity
     public int count = 0;
     public static final int EDIT = 1;
     public static final int ADD = 2;
-    private int editPoition;
+    private int editPosition;
 
     public static void start(Context context){
         Intent intent = new Intent(context,MainActivity.class);
@@ -184,7 +184,7 @@ public class MainAccountActivity extends AppCompatActivity
     @Override
     public void editItem(int position) {
         Sheet editSheet = list.get(position);
-        editPoition = position;
+        editPosition = position;
         ListListDialogFragment.newInstance(editSheet,EDIT).show(getSupportFragmentManager(),"EditDialog");
     }
 
@@ -223,7 +223,7 @@ public class MainAccountActivity extends AppCompatActivity
             }
             else if(mode==EDIT){
                 Log.d("EDIT", "onListClicked: recall!");
-                list.set(editPoition,sheet);
+                list.set(editPosition,sheet);
                 preferencesService.save(list);
                 recAdapter.editList(list);
             }
