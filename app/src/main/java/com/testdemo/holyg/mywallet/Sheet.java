@@ -116,4 +116,23 @@ public class Sheet implements Serializable {
         dValue = amount;
     }
 
+    public void setHour(int hour){
+        iHour = hour;
+    }
+
+    public void setMinute(int minute){
+        iMinute = minute;
+    }
+
+    public void setYear (int year){
+        iYear = year;
+    }
+
+    public  void setMonth (int month){
+        iMonth = month;
+    }
+
+    public void setDay (int day){
+        iDay = day;
+    }
 }

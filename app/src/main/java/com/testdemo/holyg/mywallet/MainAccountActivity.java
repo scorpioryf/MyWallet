@@ -25,6 +25,7 @@ import cn.we.swipe.helper.WeSwipeHelper;
 import com.testdemo.holyg.mywallet.ListListDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -183,7 +184,13 @@ public class MainAccountActivity extends AppCompatActivity
             count++;
 
             String string = "";
-            Sheet currentSheet = new Sheet(RecAdapter.INCOME,0.0,0,0,0,0,0,RecAdapter.UNDEFINED,string);
+            Calendar calendar = Calendar.getInstance();
+            int mYear = calendar.get(Calendar.YEAR);
+            int mMonth = calendar.get(Calendar.MONTH);
+            int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int mHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int mMinute = calendar.get(Calendar.MINUTE);
+            Sheet currentSheet = new Sheet(RecAdapter.UNDEFINED,0,mYear,mMonth,mDay,mHour,mMinute,RecAdapter.UNDEFINED,string);
             ListListDialogFragment.newInstance(currentSheet).show(getSupportFragmentManager(),"Dialog");
 //            list.add(currentSheet);
 //            preferencesService.save(list);
