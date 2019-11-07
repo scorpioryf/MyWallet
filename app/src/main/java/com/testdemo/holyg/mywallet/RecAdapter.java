@@ -18,7 +18,10 @@ import cn.we.swipe.helper.WeSwipeHelper;
 
 
 
-public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
+
+
+
+public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder>{
     public final static int INCOME = 1;
     public final static int EXPEND = 0;
     public final static int UNDEFINED = -1;
@@ -34,9 +37,14 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
 
 
     DeletedItemListener deletedItemListener;
+    EditItemListener editItemListener;
 
     public void setDelectedItemListener(DeletedItemListener deletedItemListener) {
         this.deletedItemListener = deletedItemListener;
+    }
+
+    public void setEditItemListener(EditItemListener editItemListener){
+        this.editItemListener = editItemListener;
     }
 
     public RecAdapter(Context context) {
@@ -66,6 +74,23 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
         }
     }
 
+    public void editList(List<Sheet> list) {
+        data.clear();
+        data.addAll(list);
+        notifyDataSetChanged();
+//        if(!list.isEmpty()) {
+//            //itemMove(0,data.size()-1);
+//
+//            notifyItemInserted(data.size()-1);
+//            //notifyItemMoved(data.size() - 1, 0);
+//            //notifyDataSetChanged();
+//
+//        }
+//        else{
+//            notifyItemInserted(0);
+//        }
+    }
+
     public List<Sheet> getData() {
         return data;
     }
@@ -86,7 +111,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
     @Override
     public void onBindViewHolder(final RecViewholder holder, int position) {
 
-        Sheet tempSheet = data.get(holder.getAdapterPosition());
+        final Sheet tempSheet = data.get(holder.getAdapterPosition());
 
         holder.textViewComment.setText(tempSheet.getComment());
         holder.textViewDate.setText(tempSheet.getDate());
@@ -137,6 +162,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "EDIT" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                if(editItemListener!=null){
+
+                    editItemListener.editItem(holder.getAdapterPosition());
+                }
             }
         });
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +182,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
     public int getItemCount() {
         return data.size();
     }
-
 
     /**
      * view.getWidth()获取的是屏幕中可以看到的大小.
@@ -225,6 +253,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewholder> {
 
     public interface DeletedItemListener {
         void deleted(int position);
+    }
+
+    public interface EditItemListener{
+        void editItem(int position);
     }
 
 }

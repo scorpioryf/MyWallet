@@ -3,6 +3,7 @@ package com.testdemo.holyg.mywallet;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,7 +31,7 @@ import java.util.List;
 
 
 public class MainAccountActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RecAdapter.DeletedItemListener,ListListDialogFragment.Listener {
+        implements NavigationView.OnNavigationItemSelectedListener,RecAdapter.DeletedItemListener,RecAdapter.EditItemListener,ListListDialogFragment.Listener {
 
     RecyclerView recyclerView;
     private RecAdapter recAdapter;
@@ -40,6 +41,9 @@ public class MainAccountActivity extends AppCompatActivity
     public PreferencesService preferencesService;
 
     public int count = 0;
+    public static final int EDIT = 1;
+    public static final int ADD = 2;
+    private int editPoition;
 
     public static void start(Context context){
         Intent intent = new Intent(context,MainActivity.class);
@@ -51,6 +55,7 @@ public class MainAccountActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recAdapter = new RecAdapter(this);
         recAdapter.setDelectedItemListener(this);
+        recAdapter.setEditItemListener(this);
         recyclerView.setAdapter(recAdapter);
 
         //设置WeSwipe。
@@ -176,6 +181,13 @@ public class MainAccountActivity extends AppCompatActivity
         preferencesService.save(list);
     }
 
+    @Override
+    public void editItem(int position) {
+        Sheet editSheet = list.get(position);
+        editPoition = position;
+        ListListDialogFragment.newInstance(editSheet,EDIT).show(getSupportFragmentManager(),"EditDialog");
+    }
+
 
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -191,7 +203,7 @@ public class MainAccountActivity extends AppCompatActivity
             int mHour = calendar.get(Calendar.HOUR_OF_DAY);
             int mMinute = calendar.get(Calendar.MINUTE);
             Sheet currentSheet = new Sheet(RecAdapter.UNDEFINED,0,mYear,mMonth,mDay,mHour,mMinute,RecAdapter.UNDEFINED,string);
-            ListListDialogFragment.newInstance(currentSheet).show(getSupportFragmentManager(),"Dialog");
+            ListListDialogFragment.newInstance(currentSheet,ADD).show(getSupportFragmentManager(),"AddDialog");
 //            list.add(currentSheet);
 //            preferencesService.save(list);
 //            recAdapter.setList(list);
@@ -201,12 +213,22 @@ public class MainAccountActivity extends AppCompatActivity
     };
 
     @Override
-    public void onListClicked(boolean status,Sheet sheet) {
+    public void onListClicked(boolean status,Sheet sheet,int mode) {
         if(status){
-            list.add(sheet);
-            preferencesService.save(list);
-            recAdapter.setList(list);
-            recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+            if(mode==ADD) {
+                list.add(sheet);
+                preferencesService.save(list);
+                recAdapter.setList(list);
+                recyclerView.smoothScrollToPosition(recAdapter.getItemCount() - 1);
+            }
+            else if(mode==EDIT){
+                Log.d("EDIT", "onListClicked: recall!");
+                list.set(editPoition,sheet);
+                preferencesService.save(list);
+                recAdapter.editList(list);
+            }
         }
     }
+
+
 }

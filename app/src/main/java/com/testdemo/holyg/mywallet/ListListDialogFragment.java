@@ -43,19 +43,22 @@ import java.util.regex.Pattern;
 public class ListListDialogFragment extends BottomSheetDialogFragment {
 
     // TODO: Customize parameter argument names
-    private static final String ARG_ITEM_COUNT = "item_count";
+    private static final String ARG_WORK_MODE = "work_mode";
     private static final String ARG_SHEET_INPUT = "new_sheet";
     private Listener mListener;
     private Sheet argSheet;
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
 
+    private int mode = 0;
+
     // TODO: Customize parameters
-    public static ListListDialogFragment newInstance(Sheet currentSheet) {
+    public static ListListDialogFragment newInstance(Sheet currentSheet,int mode) {
         final ListListDialogFragment fragment = new ListListDialogFragment();
         final Bundle args = new Bundle();
         //args.putInt(ARG_ITEM_COUNT, itemCount);
         args.putSerializable(ARG_SHEET_INPUT,currentSheet);
+        args.putInt(ARG_WORK_MODE,mode);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +74,7 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
         final RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         argSheet = (Sheet)this.getArguments().getSerializable(ARG_SHEET_INPUT);
+        mode = this.getArguments().getInt(ARG_WORK_MODE);
         recyclerView.setAdapter(new ListAdapter(argSheet));
     }
 
@@ -92,7 +96,7 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
     }
 
     public interface Listener {
-        void onListClicked(boolean status,Sheet sheet);
+        void onListClicked(boolean status,Sheet sheet,int mode);
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
@@ -286,7 +290,7 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onClick(View v) {
                     if(mListener!=null){
-                        mListener.onListClicked(false,null);
+                        mListener.onListClicked(false,null,mode);
                     }
                     dismiss();
                 }
@@ -304,7 +308,7 @@ public class ListListDialogFragment extends BottomSheetDialogFragment {
                             argSheet.setYear(Integer.valueOf(textViewYear.getText().toString()));
                             argSheet.setMonth(Integer.valueOf(textViewMonth.getText().toString()));
                             argSheet.setDay(Integer.valueOf(textViewDay.getText().toString()));
-                            mListener.onListClicked(true, argSheet);
+                            mListener.onListClicked(true, argSheet,mode);
                             dismiss();
                         }
                         else {
