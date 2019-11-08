@@ -65,9 +65,12 @@ public class MainAccountActivity extends AppCompatActivity
     private void initData() {
         list = preferencesService.getList();
         recAdapter.setList(list);
-        recyclerView.smoothScrollToPosition(0);
+
         if(!list.isEmpty()) {
             recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+        }
+        else {
+            recyclerView.smoothScrollToPosition(0);
         }
 //        for (int i = 0; i < 30; i++) {
 //            list.add(sheet);
@@ -161,11 +164,41 @@ public class MainAccountActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_overview) {
-            // Handle the camera action
+            recAdapter.editList(list);
+            if(!list.isEmpty()) {
+                recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+            }
+            else {
+                recyclerView.smoothScrollToPosition(0);
+            }
         } else if (id == R.id.nav_income) {
-
+            ArrayList<Sheet> incomeList = new ArrayList<>();
+            for(int i=0;i<list.size();i++){
+                if(list.get(i).getType()==RecAdapter.INCOME){
+                    incomeList.add(list.get(i));
+                }
+            }
+            recAdapter.editList(incomeList);
+            if(!incomeList.isEmpty()) {
+                recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+            }
+            else {
+                recyclerView.smoothScrollToPosition(0);
+            }
         } else if (id == R.id.nav_expenditure) {
-
+            ArrayList<Sheet> expendList = new ArrayList<>();
+            for(int i=0;i<list.size();i++){
+                if(list.get(i).getType()==RecAdapter.EXPEND){
+                    expendList.add(list.get(i));
+                }
+            }
+            recAdapter.editList(expendList);
+            if(!expendList.isEmpty()) {
+                recyclerView.smoothScrollToPosition(recAdapter.getItemCount()-1);
+            }
+            else {
+                recyclerView.smoothScrollToPosition(0);
+            }
         } else if (id == R.id.nav_search) {
 
         }
