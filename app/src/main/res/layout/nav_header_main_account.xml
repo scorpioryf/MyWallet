@@ -24,14 +24,14 @@
         app:srcCompat="@drawable/header64" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewAccountName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        android:text="Total Assets: 0 RMB"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="You can set a name here."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
         android:layout_width="wrap_content"

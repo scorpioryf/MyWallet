@@ -1,8 +1,13 @@
 package com.testdemo.holyg.mywallet;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +25,10 @@ import android.content.Intent;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import cn.we.swipe.helper.WeSwipe;
 import cn.we.swipe.helper.WeSwipeHelper;
 
@@ -40,10 +49,12 @@ public class MainAccountActivity extends AppCompatActivity
 
     public PreferencesService preferencesService;
 
-    public int count = 0;
+
     public static final int EDIT = 1;
     public static final int ADD = 2;
     private int editPosition;
+
+    private TextView textViewUserName;
 
     public static void start(Context context){
         Intent intent = new Intent(context,MainActivity.class);
@@ -82,12 +93,15 @@ public class MainAccountActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_account);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         preferencesService = new PreferencesService(this);
         preferencesService.init();
+
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +126,22 @@ public class MainAccountActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_account);
+        textViewUserName = headerLayout.findViewById(R.id.textViewAccountName);
+        SharedPreferences sharedPreferencesUserName = getSharedPreferences("UserName",MODE_PRIVATE);
+        if(sharedPreferencesUserName!=null){
+            Log.d("Sp", "onCreate: Shared preference get.");
+            String userName = sharedPreferencesUserName.getString("Name",null);
+            if(userName!=null) {
+                Log.e("TAG", "onCreate: "+ userName);
+                textViewUserName.setText(userName);
+            }
+        }
+
 
         initView();
+
+
         initData();
     }
 
@@ -145,9 +173,32 @@ public class MainAccountActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            final EditText inputServer = new EditText(this);
+            inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Set your Name").setView(inputServer)
+                    .setNegativeButton("Cancel", null);
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    String _sign = inputServer.getText().toString();
+                    if(_sign!=null && !_sign.isEmpty())
+                    {
+                        textViewUserName = findViewById(R.id.textViewAccountName);
+                        textViewUserName.setText(_sign);
+                        SharedPreferences sharedPreferencesUserName = getSharedPreferences("UserName",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferencesUserName.edit();
+                        editor.putString("Name",textViewUserName.getText().toString());
+                        editor.commit();
+                    }
+                    else
+                    {
+                        Toast.makeText(MainAccountActivity.this,"Empty message",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -156,6 +207,15 @@ public class MainAccountActivity extends AppCompatActivity
         finish();
         super.onPause();
     }
+
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -199,8 +259,8 @@ public class MainAccountActivity extends AppCompatActivity
             else {
                 recyclerView.smoothScrollToPosition(0);
             }
-        } else if (id == R.id.nav_search) {
-
+        } else if (id == R.id.nav_webView) {
+            openWebPage("https://github.com/scorpioryf/MyWallet");
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -226,7 +286,6 @@ public class MainAccountActivity extends AppCompatActivity
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            count++;
 
             String string = "";
             Calendar calendar = Calendar.getInstance();
