@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -56,11 +57,6 @@ public class MainAccountActivity extends AppCompatActivity
 
     private TextView textViewUserName;
 
-    public static void start(Context context){
-        Intent intent = new Intent(context,MainActivity.class);
-        context.startActivity(intent);
-    }
-
     private void initView() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,7 +91,7 @@ public class MainAccountActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_account);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         preferencesService = new PreferencesService(this);
         preferencesService.init();
@@ -103,7 +99,7 @@ public class MainAccountActivity extends AppCompatActivity
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -117,13 +113,13 @@ public class MainAccountActivity extends AppCompatActivity
 //        });
         fab.setOnClickListener(onClickListener);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_account);
@@ -149,7 +145,7 @@ public class MainAccountActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -181,14 +177,14 @@ public class MainAccountActivity extends AppCompatActivity
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     String _sign = inputServer.getText().toString();
-                    if(_sign!=null && !_sign.isEmpty())
+                    if(!_sign.isEmpty())
                     {
                         textViewUserName = findViewById(R.id.textViewAccountName);
                         textViewUserName.setText(_sign);
                         SharedPreferences sharedPreferencesUserName = getSharedPreferences("UserName",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferencesUserName.edit();
                         editor.putString("Name",textViewUserName.getText().toString());
-                        editor.commit();
+                        editor.apply();
                     }
                     else
                     {
@@ -219,8 +215,9 @@ public class MainAccountActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@Nullable MenuItem item) {
         // Handle navigation view item clicks here.
+        assert item != null;
         int id = item.getItemId();
 
         if (id == R.id.nav_overview) {
@@ -262,7 +259,7 @@ public class MainAccountActivity extends AppCompatActivity
         } else if (id == R.id.nav_webView) {
             openWebPage("https://github.com/scorpioryf/MyWallet");
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
